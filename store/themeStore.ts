@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
-// 1. Define the shape of your state
 type Theme = 'light' | 'dark';
 
 interface ThemeState {
@@ -9,11 +8,8 @@ interface ThemeState {
     setTheme: (theme: Theme) => void;
 }
 
-// 2. Create the store
 export const useThemeStore = create<ThemeState>((set) => ({
-    theme: 'light', // Default state
-
-    // Actions (what you called reducers)
+    theme: 'light',
     toggleTheme: () => set((state) => ({
         theme: state.theme === 'light' ? 'dark' : 'light'
     })),
