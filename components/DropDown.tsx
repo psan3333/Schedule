@@ -16,7 +16,7 @@ const DropDownItem = ({
 }) => {
     return (
         <Text
-            key={Math.random() * 1000000}
+            key={`${Math.random() * 1000000}`}
             style={styles.item}
             onPress={() => setSelected(value)}
         >

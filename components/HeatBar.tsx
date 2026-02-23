@@ -2,7 +2,6 @@ import { TimePeriod } from "@/constants/types";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-
 // TODO: Finish creating HearBar component with it's parent!!
 const HeatBar = ({
     period,
@@ -13,10 +12,6 @@ const HeatBar = ({
     date: Date;
     count: number;
 }) => {
-    const selectOpacity = () => {
-        switch (count)
-    }
-
     return <View style={[]}></View>;
 };
 

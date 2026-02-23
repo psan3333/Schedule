@@ -1,19 +1,11 @@
 import CalendarHeatmap from "@/components/CalendarHeatmap";
-import { StyleSheet, View } from "react-native";
+import { commonStyles, gap } from "@/styles/commonStyles";
+import { ScrollView } from "react-native";
 
 export default function Index() {
     return (
-        <View>
+        <ScrollView style={[commonStyles.flexCol, gap(12)]}>
             <CalendarHeatmap />
-        </View>
+        </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        width: "90%",
-        marginInline: "auto",
-        display: "flex",
-        flexDirection: "column",
-    },
-});

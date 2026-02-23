@@ -1,0 +1,1 @@
+export const timePeriods = ["week", "month", "3 months", "year"];

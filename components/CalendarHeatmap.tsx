@@ -1,9 +1,12 @@
-import { TimePeriod } from "@/constants/types";
+import { timePeriods } from "@/constants/const";
+import { commonStyles } from "@/styles/commonStyles";
 import { subDays, subMonths } from "date-fns";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import DropDown from "./DropDown";
 
-const CalendarHeatmap = ({ period }: { period: TimePeriod }) => {
+const CalendarHeatmap = () => {
+    const [period, setPeriod] = useState<string>(timePeriods[0]);
     const data = [
         {
             date: new Date("2026-01-26"),
@@ -65,9 +68,14 @@ const CalendarHeatmap = ({ period }: { period: TimePeriod }) => {
     let [barWidth, columnHeight] = getBarDims();
 
     return (
-        <View style={styles.container}>
+        <View style={commonStyles.flexCol}>
             <View>
                 <Text>Select Period</Text>
+                <DropDown
+                    data={timePeriods}
+                    selected={period}
+                    setSelected={setPeriod}
+                />
             </View>
             <View style={styles.heatBarContainer}>{}</View>
         </View>
@@ -94,9 +102,6 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
-    },
-    heatBarBg: {
-        color: "",
     },
 });
 

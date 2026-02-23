@@ -7,45 +7,45 @@
 
 export const Colors = {
     light: {
-        background: {
-            main: "hsl(0, 3%, 85%)",
-            surface: "hsl(0, 0%, 92%)",
-
+        surface: {
+            0: "hsl(157, 0%, 76%)",
+            1: "hsl(157, 0%, 80%)",
+            2: "hsl(157, 0%, 84%)",
+            3: "hsl(157, 0%, 88%)",
+            4: "hsl(157, 0%, 92%)",
         },
-        secondary: "hsl(157, 10%, 80%)",
         text: {
             primary: "hsla(120, 100%, 8%, 0.9)",
             secondary: "hsla(120, 100%, 8%, 0.5)",
             disabled: "hsla(0, 0%, 8%, 0.3)"
         },
         button: {
-            default: "hsl(156, 91%, 37%)",
+            default: "hsl(156, 91%, 40%)",
             pressed: "hsl(156, 91%, 55%)",
-            disabled: "hsl(0, 0%, 75%)",
+            disabled: "hsla(0, 0%, 75%, 0.7)",
         },
-        error: "hsl(0, 50%, 50%)",
-        success: "hsl(156, 90%, 70%)",
+        error: "hsl(0, 63%, 64%)",
+        success: "hsl(156, 91%, 37%)",
         warning: "hsl(49, 55%, 54%)",
     },
     dark: {
-        background: {
-            main: "hsl(0, 3%, 85%)",
-            surface: "hsl(0, 0%, 92%)",
-
+        background: "hsl(157, 0%, 82%)",
+        surface: {
+            0: "hsl(157, 0%, 96%)",
+            1: "hsl(157, 0%, 100%)",
         },
-        secondary: "hsl(157, 10%, 80%)",
         text: {
             primary: "hsla(120, 100%, 8%, 0.9)",
             secondary: "hsla(120, 100%, 8%, 0.5)",
             disabled: "hsla(0, 0%, 8%, 0.3)"
         },
         button: {
-            default: "hsl(156, 91%, 37%)",
+            default: "hsl(156, 91%, 40%)",
             pressed: "hsl(156, 91%, 55%)",
-            disabled: "hsl(0, 0%, 75%)",
+            disabled: "hsla(0, 0%, 75%, 0.7)",
         },
-        error: "hsl(0, 50%, 50%)",
-        success: "hsl(156, 90%, 70%)",
+        error: "hsl(0, 63%, 64%)",
+        success: "hsl(156, 91%, 37%)",
         warning: "hsl(49, 55%, 54%)",
     },
 }

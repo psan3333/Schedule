@@ -1,9 +1,12 @@
 import { useWindowDimensions } from "react-native";
 
 type MediaQueryType = "minWidth" | "maxWidth" | "minHeight" | "maxHeight";
-type MediaQuery = Record<MediaQueryType, number>;
+type MediaQuery = {
+    query: MediaQueryType;
+    value: number;
+};
 
-export const useMediaQuery = (query: MediaQuery) => {
+export const useMediaQuery = (queries: MediaQuery[]) => {
     const { width, height } = useWindowDimensions();
 
     const checkIfQuerySatisfies = (key: MediaQueryType, value: number) => {
@@ -17,14 +20,14 @@ export const useMediaQuery = (query: MediaQuery) => {
             case "maxHeight":
                 return value <= height;
             default:
-                throw new Error("useMediaQuery: Wrong ");
+                throw new Error("useMediaQuery: Wrong query name!");
         }
     }
 
     let result: boolean = true;
-    for (let key in query) {
+    for (let { query, value } of queries) {
         // key is guarantied to have QueryType from hook parameter type
-        result &&= checkIfQuerySatisfies(key as MediaQueryType, query[key as MediaQueryType]);
+        result &&= checkIfQuerySatisfies(query, value);
     }
 
     return result;
