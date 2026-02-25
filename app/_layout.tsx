@@ -8,6 +8,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Navbar from "@/components/Navbar";
+import { useAppTheme } from "@/hooks/useAppTheme";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { commonStyles } from "@/styles/commonStyles";
 
@@ -45,9 +46,8 @@ function TabBarButton({
     Icon: IconType;
 }) {
     const theme = useThemeColors();
-
     return (
-        <Link href={route as Href} style={commonStyles.flexCol} asChild>
+        <Link href={route as Href} style={commonStyles.centered} asChild>
             <Pressable>
                 <Icon
                     name={iconName}
@@ -75,8 +75,17 @@ function TabBarButton({
 
 export default function RootLayout() {
     const currPath = usePathname();
+    const colors = useThemeColors();
+    useAppTheme();
     return (
-        <SafeAreaView style={commonStyles.appContainer}>
+        <SafeAreaView
+            style={[
+                commonStyles.flexCol,
+                commonStyles.justifyCenter,
+                commonStyles.hFull,
+                { backgroundColor: colors.surface[0] },
+            ]}
+        >
             <Tabs>
                 <Navbar />
                 <TabSlot />

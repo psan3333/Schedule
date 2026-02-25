@@ -11,7 +11,6 @@ export const useBoxShadow = (elevation: number) => {
             shadowRadius: 4,
         } : {
             elevation: elevation,
-            shadowColor: colors.shadow,
         },
     });
     return shadowTypes;

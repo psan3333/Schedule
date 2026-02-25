@@ -8,11 +8,9 @@
 export const Colors = {
     light: {
         surface: {
-            0: "hsl(157, 0%, 76%)",
-            1: "hsl(157, 0%, 80%)",
-            2: "hsl(157, 0%, 84%)",
-            3: "hsl(157, 0%, 88%)",
-            4: "hsl(157, 0%, 92%)",
+            0: "hsl(157, 0%, 84%)",
+            1: "hsl(157, 0%, 88%)",
+            2: "hsl(157, 0%, 92%)",
         },
         text: {
             primary: "hsla(120, 100%, 8%, 0.9)",
@@ -24,7 +22,7 @@ export const Colors = {
             pressed: "hsl(156, 91%, 55%)",
             disabled: "hsla(0, 0%, 75%, 0.7)",
         },
-        shadow: "hsl(0, 0%, 0%, 0.25)",
+        shadow: "hsla(0, 0%, 0%, 0.5)",
         error: "hsl(0, 63%, 64%)",
         success: "hsl(156, 91%, 37%)",
         warning: "hsl(49, 55%, 54%)",

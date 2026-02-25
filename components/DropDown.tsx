@@ -5,7 +5,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 interface DropDownProps {
     data: string[];
     selected: string;
-    setSelected: React.Dispatch<SetStateAction<string>>;
+    setSelected: React.Dispatch<SetStateAction<any>>;
 }
 
 const DropDownItem = ({

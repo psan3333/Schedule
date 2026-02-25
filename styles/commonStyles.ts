@@ -2,9 +2,10 @@ import { StyleSheet } from "react-native";
 
 export const commonStyles = StyleSheet.create({
     appContainer: {
-        height: "100%",
         width: "90%",
         marginInline: "auto",
+        borderColor: "black",
+        borderWidth: 2
     },
     flexRow: {
         display: "flex",
@@ -14,7 +15,7 @@ export const commonStyles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
     },
-    jusfityCenter: {
+    justifyCenter: {
         justifyContent: "center",
     },
     spaceBetween: {
@@ -41,11 +42,17 @@ export const commonStyles = StyleSheet.create({
     },
     iconSm: {
         height: 18,
-        width: "auto",
+        width: 36,
     },
     iconMd: {
         height: 36,
-        width: "auto",
+        width: 36,
+    },
+    hFull: {
+        height: "100%",
+    },
+    wFull: {
+        width: "100%",
     },
     flexWrap: {
         flexWrap: "wrap",

@@ -1,7 +1,7 @@
 import { Todo } from "@/constants/types";
 import { TZDate } from "@date-fns/tz";
-import { randomUUID } from "crypto";
 import { addDays, compareAsc, format } from "date-fns";
+import { randomUUID } from "expo-crypto";
 import { create } from 'zustand';
 
 type TodosStore = {
@@ -10,23 +10,25 @@ type TodosStore = {
         [uniqueDay]: Todo[] - store array of Todo for concrete day
     */
     plannedTodos: Record<string, Todo[]>;
-    completedTodos: Record<string, Todo[]>;
-    dailyTarget: number;
+    finishedTodos: Record<string, Todo[]>;
+    userDailyTarget: number;
+    setDailyTarget: (target: number) => void;
     getStats: () => [number, number];
     addTodo: (todo: Todo) => void;
     deleteTodo: (todo: Todo) => void;
-    getTodos: (from: Date, to: Date) => Todo[];
-    getCompletedTodos: (from: Date, to: Date) => Todo[];
+    getTodos: (from: Date, to: Date) => Todo[][];
+    getFinishedTodos: (from: Date, to: Date) => Todo[][];
     getJSONStats: () => string;
 };
 
 export const useTodosStore = create<TodosStore>((set, get) => ({
     plannedTodos: {},
-    completedTodos: {},
-    dailyTarget: 0,
+    finishedTodos: {},
+    userDailyTarget: 0,
+    setDailyTarget: (target) => set({ userDailyTarget: target }),
     getStats: () => {
         // linting was disabled for gathering user stats
-        const { plannedTodos, completedTodos } = get();
+        const { plannedTodos, finishedTodos: completedTodos } = get();
         let plannedCnt = 0;
         let completedCnt = 0;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,7 +44,6 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
     addTodo: (todo) => set((state) => {
         let currDay = format(new TZDate(), 'MM-dd-yy');
         return {
-            ...state,
             plannedTodos: {
                 ...state.plannedTodos,
                 [currDay]: [...state.plannedTodos[currDay], {
@@ -56,7 +57,6 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
     deleteTodo: (todo) => set((state) => {
         let todoTimestamp = format(new TZDate(todo.timestamp), 'MM-dd-yy');
         return {
-            ...state,
             plannedTodos: {
                 ...state.plannedTodos,
                 [todoTimestamp]: state.plannedTodos[todoTimestamp].filter(t => t.id !== todo.id),
@@ -65,22 +65,22 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
     }),
     getTodos: (from, to) => {
         let { plannedTodos } = get();
-        let result = [];
+        let todosByDay = [];
         for (let currDate = from; compareAsc(currDate, to) <= 0; currDate = addDays(currDate, 1)) {
             let dayFormat = format(currDate, 'MM-dd-yy');
-            result.push(...plannedTodos[dayFormat]);
+            todosByDay.push(plannedTodos[dayFormat]);
         }
-        return result;
+        return todosByDay;
     },
-    getCompletedTodos: (from, to) => {
-        let { completedTodos } = get();
-        let result = [];
+    getFinishedTodos: (from, to) => {
+        let { finishedTodos: completedTodos } = get();
+        let todosByDay = [];
         for (let currDate = from; compareAsc(currDate, to) <= 0; currDate = addDays(currDate, 1)) {
             let dayFormat = format(currDate, 'MM-dd-yy');
             if (!(dayFormat in completedTodos)) continue;
-            result.push(...completedTodos[dayFormat]);
+            todosByDay.push(completedTodos[dayFormat]);
         }
-        return result;
+        return todosByDay;
     },
     getJSONStats: () => JSON.stringify(get())
 }));
