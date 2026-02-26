@@ -1,17 +1,20 @@
-// import { useThemeColors } from "@/hooks/useThemeColors";
-// import React from "react";
-// import { StyleSheet, Text } from "react-native";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useThemeColors } from "@/hooks/useThemeColors";
+import { typography } from "@/styles/typography";
+import React, { ReactNode } from "react";
+import { Text, TextStyle } from "react-native";
 
-// const Paragraph = () => {
-//     const colors = useThemeColors();
-//     const mediaQueries = useMedia();
-//     return <Text>Paragraph</Text>;
-// };
+const Paragraph = ({ children }: { children: ReactNode }) => {
+    const colors = useThemeColors();
+    const textSize = useMediaQuery({
+        queries: [{ query: "maxWidth", value: 512 }],
+        style: typography.textXs,
+        defaultStyle: typography.textSm,
+    }) as TextStyle;
+    const textColor = { color: colors.text.primary };
+    return (
+        <Text style={[textSize, textColor, typography.medium]}>{children}</Text>
+    );
+};
 
-// const styles = StyleSheet.create({
-//     p: {
-//         fontSize: 18,
-//     },
-// });
-
-// export default Paragraph;
+export default Paragraph;

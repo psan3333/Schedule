@@ -1,5 +1,5 @@
 import { useThemeStore } from "@/store/themeStore";
-import { commonStyles } from "@/styles/commonStyles";
+import { layoutStyles } from "@/styles/layout";
 import { useAssets } from "expo-asset";
 import PressableImage from "./PressableImage";
 
@@ -15,7 +15,7 @@ const ToggleTheme = () => {
         <PressableImage
             onPress={() => toggleTheme()}
             source={theme === "dark" ? assets[0] : assets[1]}
-            style={commonStyles.iconMd}
+            style={layoutStyles.iconMd}
         />
     ) : null;
 };

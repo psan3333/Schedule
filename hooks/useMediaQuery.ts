@@ -5,20 +5,25 @@ type MediaQuery = {
     query: MediaQueryType;
     value: number;
 };
+interface UseMediaQueryArgs {
+    queries: MediaQuery[];
+    style: StyleProp<TextStyle | ViewStyle>;
+    defaultStyle: StyleProp<TextStyle | ViewStyle>;
+}
 
-export const useMediaQuery = (queries: MediaQuery[], style: StyleProp<TextStyle | ViewStyle>) => {
+export const useMediaQuery = ({ queries, style, defaultStyle }: UseMediaQueryArgs) => {
     const { width, height } = useWindowDimensions();
 
     const checkIfQuerySatisfies = (key: MediaQueryType, value: number) => {
         switch (key) {
             case "minWidth":
-                return value >= width;
-            case "maxWidth":
                 return value <= width;
+            case "maxWidth":
+                return value >= width;
             case "minHeight":
-                return value >= height;
-            case "maxHeight":
                 return value <= height;
+            case "maxHeight":
+                return value >= height;
             default:
                 throw new Error("useMediaQuery: Wrong query name!");
         }
@@ -30,5 +35,5 @@ export const useMediaQuery = (queries: MediaQuery[], style: StyleProp<TextStyle 
         querySatisfied &&= checkIfQuerySatisfies(query, value);
     }
 
-    return querySatisfied ? style : {};
+    return querySatisfied ? style : defaultStyle;
 }

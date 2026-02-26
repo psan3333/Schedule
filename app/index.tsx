@@ -1,6 +1,6 @@
 import CalendarHeatmap from "@/components/CalendarHeatmap";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { commonStyles } from "@/styles/commonStyles";
+import { layoutStyles } from "@/styles/layout";
 import { ScrollView, StyleSheet } from "react-native";
 
 export default function Index() {
@@ -8,9 +8,9 @@ export default function Index() {
     return (
         <ScrollView
             contentContainerStyle={[
-                commonStyles.flexCol,
-                commonStyles.alignCenter,
-                commonStyles.appContainer,
+                layoutStyles.flexCol,
+                layoutStyles.alignCenter,
+                layoutStyles.appContainer,
                 styles.spaceBetweenItems,
                 { backgroundColor: colors.surface[1] },
             ]}

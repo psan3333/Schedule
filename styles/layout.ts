@@ -1,11 +1,10 @@
 import { StyleSheet } from "react-native";
 
-export const commonStyles = StyleSheet.create({
+export const layoutStyles = StyleSheet.create({
     appContainer: {
         width: "90%",
         marginInline: "auto",
         borderColor: "black",
-        borderWidth: 2
     },
     flexRow: {
         display: "flex",
@@ -31,22 +30,17 @@ export const commonStyles = StyleSheet.create({
     alignCenter: {
         alignItems: 'center',
     },
-    bold: {
-        fontWeight: "bold",
-    },
-    semibold: {
-        fontWeight: "semibold",
-    },
-    fontMedium: {
-        fontWeight: "medium",
+    iconXs: {
+        height: 10,
+        width: 10,
     },
     iconSm: {
         height: 18,
-        width: 36,
+        width: 18,
     },
     iconMd: {
-        height: 36,
-        width: 36,
+        height: 24,
+        width: 24,
     },
     hFull: {
         height: "100%",
@@ -63,10 +57,28 @@ export const commonStyles = StyleSheet.create({
     gapMd: {
         gap: 15,
     },
+    pdXs: {
+        padding: 4,
+    },
+    pdSm: {
+        padding: 6
+    },
+    pdMd: {
+        padding: 10
+    },
+    pdLg: {
+        padding: 15,
+    },
+    pdXl: {
+        padding: 20,
+    },
     absolute: {
         position: "absolute",
     },
+    relative: {
+        position: "relative",
+    },
     elementBelow: {
         top: "100%",
-    }
+    },
 });

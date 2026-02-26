@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Navbar from "@/components/Navbar";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { commonStyles } from "@/styles/commonStyles";
+import { layoutStyles } from "@/styles/layout";
 
 type IconType = typeof Feather & typeof MaterialIcons;
 type extractIconType<Type> = Type extends Icon<infer X, infer Y> ? X : never;
@@ -47,14 +47,14 @@ function TabBarButton({
 }) {
     const theme = useThemeColors();
     return (
-        <Link href={route as Href} style={commonStyles.centered} asChild>
+        <Link href={route as Href} style={layoutStyles.centered} asChild>
             <Pressable>
                 <Icon
                     name={iconName}
                     style={[
                         currPath === route
-                            ? { color: theme.button.default }
-                            : { color: theme.button.disabled },
+                            ? { color: theme.primary }
+                            : { color: theme.text.disabled },
                     ]}
                     size={24}
                 />
@@ -62,8 +62,8 @@ function TabBarButton({
                     style={[
                         styles.tabItemText,
                         currPath === route
-                            ? { color: theme.button.default }
-                            : { color: theme.button.disabled },
+                            ? { color: theme.primary }
+                            : { color: theme.text.disabled },
                     ]}
                 >
                     {text}
@@ -80,9 +80,9 @@ export default function RootLayout() {
     return (
         <SafeAreaView
             style={[
-                commonStyles.flexCol,
-                commonStyles.justifyCenter,
-                commonStyles.hFull,
+                layoutStyles.flexCol,
+                layoutStyles.justifyCenter,
+                layoutStyles.hFull,
                 { backgroundColor: colors.surface[0] },
             ]}
         >
@@ -91,9 +91,9 @@ export default function RootLayout() {
                 <TabSlot />
                 <TabList
                     style={[
-                        commonStyles.flexRow,
-                        commonStyles.spaceAround,
-                        commonStyles.alignCenter,
+                        layoutStyles.flexRow,
+                        layoutStyles.spaceAround,
+                        layoutStyles.alignCenter,
                     ]}
                 >
                     {tabRoutes.map(({ route, name, text, iconName, Icon }) => (
@@ -120,7 +120,6 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
     tabItemText: {
         fontSize: 12,
-        opacity: 0.6,
-        fontWeight: 300,
+        fontWeight: 500,
     },
 });

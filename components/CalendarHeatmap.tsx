@@ -7,10 +7,10 @@ import { timePeriods } from "@/constants/const";
 import { TimePeriod, Todo } from "@/constants/types";
 
 import { useTodosStore } from "@/store/todosStore";
-import { commonStyles } from "@/styles/commonStyles";
 
 import { useBoxShadow } from "@/hooks/useBoxShadow";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import { layoutStyles } from "@/styles/layout";
 import { TZDate } from "@date-fns/tz";
 import DropDown from "./DropDown";
 import TodoHeatbar from "./TodoHeatbar";
@@ -73,18 +73,18 @@ const CalendarHeatmap = () => {
         ],
     ];
     const containerHeight = getHeight(
-        period === "week" ? commonStyles.gapSm.gap : commonStyles.gapMd.gap,
+        period === "week" ? layoutStyles.gapSm.gap : layoutStyles.gapMd.gap,
     );
-    const layoutStyles =
+    const containerStyles =
         period === "week"
-            ? [commonStyles.flexRow, commonStyles.gapSm]
-            : [commonStyles.flexCol, commonStyles.gapMd];
+            ? [layoutStyles.flexRow, layoutStyles.gapSm]
+            : [layoutStyles.flexCol, layoutStyles.gapMd];
 
     return (
         <View
             style={[
-                commonStyles.flexCol,
-                commonStyles.wFull,
+                layoutStyles.flexCol,
+                layoutStyles.wFull,
                 shadowStyles.cardShadow,
                 {
                     backgroundColor: colors.surface[1],
@@ -95,7 +95,7 @@ const CalendarHeatmap = () => {
                 },
             ]}
         >
-            <View style={[commonStyles.flexRow, commonStyles.spaceBetween]}>
+            <View style={[layoutStyles.flexRow, layoutStyles.spaceBetween]}>
                 <Text>Select Period</Text>
                 <DropDown
                     data={timePeriods}
@@ -105,8 +105,8 @@ const CalendarHeatmap = () => {
             </View>
             <View
                 style={[
-                    commonStyles.flexWrap,
-                    ...layoutStyles,
+                    layoutStyles.flexWrap,
+                    ...containerStyles,
                     containerHeight,
                 ]}
             >
