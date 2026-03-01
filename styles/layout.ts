@@ -72,6 +72,21 @@ export const layoutStyles = StyleSheet.create({
     pdXl: {
         padding: 20,
     },
+    borderXs: {
+        borderRadius: 4,
+    },
+    borderSm: {
+        borderRadius: 6
+    },
+    borderMd: {
+        borderRadius: 10
+    },
+    borderLg: {
+        borderRadius: 15,
+    },
+    borderXl: {
+        borderRadius: 20,
+    },
     absolute: {
         position: "absolute",
     },
@@ -81,4 +96,7 @@ export const layoutStyles = StyleSheet.create({
     elementBelow: {
         top: "100%",
     },
+    zMax: {
+        zIndex: 1000,
+    }
 });

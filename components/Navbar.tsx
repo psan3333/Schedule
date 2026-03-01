@@ -17,7 +17,7 @@ const Navbar = () => {
         require("@/assets/icons/light-theme.png"),
         require("@/assets/icons/dark-theme.png"),
     ]);
-    const shadowStyles = useBoxShadow(10);
+    const shadowStyles = useBoxShadow();
 
     return (
         <View

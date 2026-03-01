@@ -5,26 +5,27 @@ import { randomUUID } from "expo-crypto";
 import { create } from 'zustand';
 
 type TodosStore = {
-    /*
-        storage format:
-        [uniqueDay]: Todo[] - store array of Todo for concrete day
-    */
-    plannedTodos: Record<string, Todo[]>;
-    finishedTodos: Record<string, Todo[]>;
+    // storage format: day -> Todo[] planned/completed on that day
     userDailyTarget: number;
     setDailyTarget: (target: number) => void;
-    getStats: () => [number, number];
+
+    plannedTodos: Record<string, Todo[]>;
     addTodo: (todo: Todo) => void;
     deleteTodo: (todo: Todo) => void;
-    getTodos: (from: Date, to: Date) => Todo[][];
-    getFinishedTodos: (from: Date, to: Date) => Todo[][];
-    getJSONStats: () => string;
+    getTodosByPeriod: (from: Date, to: Date) => Record<string, Todo[]>;
+    setTodoToFinished: (todo: Todo) => void;
+
+    finishedTodos: Record<string, Todo[]>;
+    getFinishedTodosByPeriod: (from: Date, to: Date) => Record<string, Todo[]>;
+
+    getStats: () => [number, number];
+    getJSONStore: () => string;
 };
 
 export const useTodosStore = create<TodosStore>((set, get) => ({
+    userDailyTarget: 4,
     plannedTodos: {},
     finishedTodos: {},
-    userDailyTarget: 0,
     setDailyTarget: (target) => set({ userDailyTarget: target }),
     getStats: () => {
         // linting was disabled for gathering user stats
@@ -42,11 +43,11 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
         return [plannedCnt, completedCnt];
     },
     addTodo: (todo) => set((state) => {
-        let currDay = format(new TZDate(), 'MM-dd-yy');
+        const todoTimestamp = format(new TZDate(), 'MM-dd-yy');
         return {
             plannedTodos: {
                 ...state.plannedTodos,
-                [currDay]: [...state.plannedTodos[currDay], {
+                [todoTimestamp]: [...state.plannedTodos[todoTimestamp], {
                     ...todo,
                     id: randomUUID(),
                     timestamp: new TZDate().toString(),
@@ -55,7 +56,7 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
         };
     }),
     deleteTodo: (todo) => set((state) => {
-        let todoTimestamp = format(new TZDate(todo.timestamp), 'MM-dd-yy');
+        const todoTimestamp = format(new TZDate(todo.timestamp), 'MM-dd-yy');
         return {
             plannedTodos: {
                 ...state.plannedTodos,
@@ -63,24 +64,44 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
             }
         };
     }),
-    getTodos: (from, to) => {
-        let { plannedTodos } = get();
-        let todosByDay = [];
-        for (let currDate = from; compareAsc(currDate, to) <= 0; currDate = addDays(currDate, 1)) {
-            let dayFormat = format(currDate, 'MM-dd-yy');
-            todosByDay.push(plannedTodos[dayFormat]);
+    setTodoToFinished: (todo) => set((state) => {
+        const todoTimestamp = format(new TZDate(todo.timestamp), 'MM-dd-yy');
+        state.deleteTodo(todo);
+        return {
+            finishedTodos: {
+                ...state.finishedTodos,
+                [todoTimestamp]: [...state.finishedTodos[todoTimestamp], {
+                    ...todo,
+                    timestamp: new TZDate().toString(),
+                }],
+            }
+        };
+    }),
+    getTodosByPeriod: (from, to) => {
+        const { plannedTodos } = get();
+        const todosByDay: Record<string, Todo[]> = {};
+        for (let timestamp = from; compareAsc(timestamp, to) <= 0; timestamp = addDays(timestamp, 1)) {
+            const dayToCheck = format(timestamp, 'MM-dd-yy');
+            if (!(dayToCheck in plannedTodos)) {
+                todosByDay[dayToCheck] = [];
+            } else {
+                todosByDay[dayToCheck] = plannedTodos[dayToCheck];
+            }
         }
         return todosByDay;
     },
-    getFinishedTodos: (from, to) => {
-        let { finishedTodos: completedTodos } = get();
-        let todosByDay = [];
+    getFinishedTodosByPeriod: (from, to) => {
+        let { finishedTodos } = get();
+        let todosByDay: Record<string, Todo[]> = {};
         for (let currDate = from; compareAsc(currDate, to) <= 0; currDate = addDays(currDate, 1)) {
             let dayFormat = format(currDate, 'MM-dd-yy');
-            if (!(dayFormat in completedTodos)) continue;
-            todosByDay.push(completedTodos[dayFormat]);
+            if (!(dayFormat in finishedTodos)) {
+                todosByDay[dayFormat] = [];
+            } else {
+                todosByDay[dayFormat] = finishedTodos[dayFormat];
+            }
         }
         return todosByDay;
     },
-    getJSONStats: () => JSON.stringify(get())
+    getJSONStore: () => JSON.stringify(get())
 }));

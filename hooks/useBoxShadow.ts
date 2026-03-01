@@ -1,17 +1,27 @@
-import { Platform, StyleSheet } from "react-native";
+import { Platform } from "react-native";
 import { useThemeColors } from "./useThemeColors";
 
-export const useBoxShadow = (elevation: number) => {
+export const useBoxShadow = () => {
     const colors = useThemeColors();
-    const shadowTypes = StyleSheet.create({
-        cardShadow: Platform.OS === "ios" ? {
-            // IOS only!!! For Anrdoid, use elevation property
-            shadowColor: colors.shadow,
-            shadowOffset: { width: 0, height: 4 },
-            shadowRadius: 4,
-        } : {
-            elevation: elevation,
-        },
-    });
+    const shadowTypes = {
+        cardShadow: {}
+    };
+    if (Platform.OS === "android" && Platform.Version >= 28) {
+        shadowTypes.cardShadow = {
+            boxShadow: [
+                {
+                    offsetX: 0,
+                    offsetY: 4,
+                    blurRadius: 4,
+                    color: colors.shadow
+                }
+            ]
+        };
+    } else if (Platform.OS === "android" && Platform.Version < 28) {
+        shadowTypes.cardShadow = {
+            elevation: 4,
+        };
+    }
+
     return shadowTypes;
 }

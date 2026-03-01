@@ -1,7 +1,7 @@
 import { Todo } from "@/constants/types";
 import { useTodosStore } from "@/store/todosStore";
 import React from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 
 interface HeatBarProps {
     style: StyleProp<ViewStyle>;
@@ -10,32 +10,18 @@ interface HeatBarProps {
 
 const TodoHeatbar = ({ style, todos }: HeatBarProps) => {
     const userDailyTarget = useTodosStore((state) => state.userDailyTarget);
-    const selectStyle = () => {
-        if (todos.length / userDailyTarget < 0.5) return styles.noneCompleted;
-        if (todos.length / userDailyTarget < 0.8)
-            return styles.completed30Percent;
-        if (todos.length / userDailyTarget < 1.0) return styles.mostlyCompleted;
-        else return styles.allTasksCompleted;
+    const barOpacity = () => {
+        const minOpacity = 0.2;
+        const maxOpacity = 1.0;
+        const userTargetProgress = todos.length / userDailyTarget;
+        return {
+            opacity: Math.min(
+                Math.max(minOpacity, userTargetProgress),
+                maxOpacity,
+            ),
+        };
     };
-    return <View style={[style, selectStyle()]}></View>;
+    return <View style={[style, barOpacity()]}></View>;
 };
 
-const styles = StyleSheet.create({
-    oneWeekHeatBap: {
-        width: 36,
-        height: 36,
-    },
-    noneCompleted: {
-        opacity: 0.2,
-    },
-    completed30Percent: {
-        opacity: 0.5,
-    },
-    mostlyCompleted: {
-        opacity: 0.8,
-    },
-    allTasksCompleted: {
-        opacity: 1.0,
-    },
-});
 export default TodoHeatbar;

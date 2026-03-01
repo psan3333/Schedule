@@ -1,4 +1,3 @@
-import { useBoxShadow } from "@/hooks/useBoxShadow";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { layoutStyles } from "@/styles/layout";
 
@@ -19,11 +18,19 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 
+import { useBoxShadow } from "@/hooks/useBoxShadow";
 import Paragraph from "./typography/Paragraph";
 interface DropDownProps {
     data: string[];
     selected: string;
     setSelected: Dispatch<SetStateAction<any>>;
+}
+
+interface DropDownListProps {
+    data: string[];
+    onPress: (val: string) => void;
+    dropdownListStyle: StyleProp<ViewStyle>;
+    dropdownItemStyle: StyleProp<ViewStyle>;
 }
 
 const DropDownItem = ({
@@ -53,12 +60,38 @@ const DropDownItem = ({
     );
 };
 
+const DropDownList = ({
+    data,
+    onPress,
+    dropdownListStyle,
+    dropdownItemStyle,
+}: DropDownListProps) => {
+    return (
+        <ScrollView style={dropdownListStyle}>
+            {data.map((val, index) => {
+                const includeTopBorder = index > 0;
+                return (
+                    <DropDownItem
+                        key={index}
+                        onPress={() => onPress(val)}
+                        style={[
+                            dropdownItemStyle,
+                            includeTopBorder && styles.dropItemBorder,
+                        ]}
+                    >
+                        <Paragraph>{val}</Paragraph>
+                    </DropDownItem>
+                );
+            })}
+        </ScrollView>
+    );
+};
+
 const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const colors = useThemeColors();
-    const shadow = useBoxShadow(5);
-
-    const animatedStyles = useAnimatedStyle(() => ({
+    const shadowStyles = useBoxShadow();
+    const arrowStyles = useAnimatedStyle(() => ({
         transform: [
             {
                 rotateZ: withTiming(isOpen ? "90deg" : "0deg", {
@@ -72,37 +105,23 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
         ],
     }));
 
-    const dropDownSelectStyle = [
-        layoutStyles.flexRow,
-        layoutStyles.alignCenter,
-        layoutStyles.spaceBetween,
-        layoutStyles.pdSm,
-        styles.item,
-        styles.selectBorder,
-        shadow.cardShadow,
-    ];
-
-    const dropDownItemsStyle = [
-        layoutStyles.absolute,
-        layoutStyles.elementBelow,
-        styles.scrollStyles,
-        shadow.cardShadow,
-        styles.dropdownBorder,
-    ];
-
-    const itemStyle = [
-        ...dropDownSelectStyle.slice(0, dropDownSelectStyle.length - 2),
-    ];
-
     return (
         data.length > 0 && (
             <View>
                 <DropDownItem
                     onPress={() => setIsOpen(!isOpen)}
-                    style={dropDownSelectStyle}
+                    style={[
+                        layoutStyles.flexRow,
+                        layoutStyles.alignCenter,
+                        layoutStyles.spaceBetween,
+                        layoutStyles.pdSm,
+                        styles.item,
+                        styles.selectBorder,
+                        shadowStyles.cardShadow,
+                    ]}
                 >
                     <Paragraph>{selected}</Paragraph>
-                    <Animated.View style={animatedStyles}>
+                    <Animated.View style={arrowStyles}>
                         <Feather
                             name="arrow-right"
                             size={24}
@@ -111,27 +130,28 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                     </Animated.View>
                 </DropDownItem>
                 {isOpen && (
-                    <ScrollView style={dropDownItemsStyle}>
-                        {data.map((val, index) => {
-                            return (
-                                val !== selected && (
-                                    <DropDownItem
-                                        key={index}
-                                        onPress={() => {
-                                            setSelected(val);
-                                            setIsOpen(false);
-                                        }}
-                                        style={[
-                                            itemStyle,
-                                            index > 0 && styles.dropItemBorder,
-                                        ]}
-                                    >
-                                        <Paragraph>{val}</Paragraph>
-                                    </DropDownItem>
-                                )
-                            );
-                        })}
-                    </ScrollView>
+                    <DropDownList
+                        data={data.filter((val) => val !== selected)}
+                        onPress={(val: string) => {
+                            setSelected(val);
+                            setIsOpen(false);
+                        }}
+                        dropdownListStyle={[
+                            layoutStyles.absolute,
+                            layoutStyles.elementBelow,
+                            layoutStyles.zMax,
+                            styles.scrollStyles,
+                            styles.dropdownBorder,
+                            shadowStyles.cardShadow,
+                        ]}
+                        dropdownItemStyle={[
+                            layoutStyles.flexRow,
+                            layoutStyles.alignCenter,
+                            layoutStyles.spaceBetween,
+                            layoutStyles.pdSm,
+                            styles.item,
+                        ]}
+                    />
                 )}
             </View>
         )
