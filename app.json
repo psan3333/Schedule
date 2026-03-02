@@ -7,12 +7,10 @@
         "icon": "./assets/images/icon.png",
         "scheme": "thebesttodoappever",
         "userInterfaceStyle": "automatic",
-        "newArchEnabled": true,
         "ios": {
             "supportsTablet": true
         },
         "android": {
-            "edgeToEdgeEnabled": true,
             "predictiveBackGestureEnabled": false
         },
         "web": {
@@ -41,7 +39,10 @@
                         "./assets/icons/light-theme.png"
                     ]
                 }
-            ]
+            ],
+            "expo-font",
+            "expo-image",
+            "expo-web-browser"
         ],
         "experiments": {
             "typedRoutes": true,

@@ -16,8 +16,6 @@ export default function Index() {
             ]}
         >
             <CalendarHeatmap />
-            <CalendarHeatmap />
-            <CalendarHeatmap />
         </ScrollView>
     );
 }

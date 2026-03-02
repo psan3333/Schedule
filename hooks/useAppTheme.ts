@@ -14,7 +14,6 @@ export const useAppTheme = () => {
     useEffect(() => {
         SecureStore.getItemAsync("theme")
             .then((value) => {
-                console.log(value);
                 setTheme((value || systemTheme) as AppTheme);
             });
     }, [systemTheme, setTheme]);

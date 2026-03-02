@@ -18,7 +18,6 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 
-import { useBoxShadow } from "@/hooks/useBoxShadow";
 import Paragraph from "./typography/Paragraph";
 interface DropDownProps {
     data: string[];
@@ -90,7 +89,6 @@ const DropDownList = ({
 const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const colors = useThemeColors();
-    const shadowStyles = useBoxShadow();
     const arrowStyles = useAnimatedStyle(() => ({
         transform: [
             {
@@ -118,7 +116,6 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                     layoutStyles.elementBelow,
                     styles.scrollStyles,
                     styles.dropdownBorder,
-                    shadowStyles.cardShadow,
                 ]}
                 dropdownItemStyle={[
                     layoutStyles.flexRow,
@@ -129,7 +126,7 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                 ]}
             />
         ),
-        [data, selected, setSelected, shadowStyles.cardShadow],
+        [data, selected, setSelected],
     );
 
     return (
@@ -144,7 +141,6 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                         layoutStyles.pdSm,
                         styles.item,
                         styles.selectBorder,
-                        shadowStyles.cardShadow,
                     ]}
                 >
                     <Paragraph>{selected}</Paragraph>
