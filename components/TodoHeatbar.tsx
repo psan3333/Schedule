@@ -44,7 +44,8 @@ const TodoHeatbar = ({ style, todos, dateInDayFormat }: HeatBarProps) => {
             onPress={() => {
                 console.log("pressed", dateInDayFormat);
                 router.navigate({
-                    pathname: "/todos/period",
+                    pathname: "/todos/[day]",
+                    params: { day: dateInDayFormat },
                 });
             }}
             style={(state) => [

@@ -1,10 +1,15 @@
+import { useTodosStore } from "@/store/todosStore";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 
 const TodoDescPage = () => {
-    const { day } = useLocalSearchParams();
+    const { day } = useLocalSearchParams<{ day: string }>();
     console.log(day);
+    const getTodosByDay = useTodosStore((state) => state.getTodosByDay);
+
+    const notCompletedTodos = getTodosByDay("planned", day);
+    const finishedTodos = getTodosByDay("finished", day);
     return (
         <View>
             <Text>TodoPage</Text>

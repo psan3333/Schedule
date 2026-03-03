@@ -18,6 +18,7 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 
+import { typography } from "@/styles/typography";
 import Paragraph from "./typography/Paragraph";
 interface DropDownProps {
     data: string[];
@@ -78,7 +79,7 @@ const DropDownList = ({
                             includeTopBorder && styles.dropItemBorder,
                         ]}
                     >
-                        <Paragraph>{val}</Paragraph>
+                        <Paragraph style={typography.textSm}>{val}</Paragraph>
                     </DropDownItem>
                 );
             })}
@@ -143,7 +144,7 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                         styles.selectBorder,
                     ]}
                 >
-                    <Paragraph>{selected}</Paragraph>
+                    <Paragraph style={typography.textSm}>{selected}</Paragraph>
                     <Animated.View style={arrowStyles}>
                         <Feather
                             name="arrow-right"

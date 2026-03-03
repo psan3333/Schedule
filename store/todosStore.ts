@@ -1,6 +1,6 @@
 import { Todo } from "@/constants/types";
 import { TZDate } from "@date-fns/tz";
-import { addDays, compareAsc, format } from "date-fns";
+import { addDays, compareAsc, format, isValid, parse, subDays } from "date-fns";
 import { randomUUID } from "expo-crypto";
 import { create } from 'zustand';
 
@@ -14,6 +14,7 @@ type TodosStore = {
     addTodo: (todo: Todo) => void;
     deleteTodo: (todo: Todo) => void;
     setTodoToFinished: (todo: Todo) => void;
+    getTodosByDay: (todoType: "planned" | "finished", day: string) => Todo[];
     getTodosByPeriod: (todoType: "finished" | "planned", from: Date, to: Date) => Record<string, Todo[]>[];
 
     getUserStats: () => [number, number];
@@ -82,6 +83,8 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
         }
 
         const todosByDay: Record<string, Todo[]>[] = [];
+        from = subDays(from, from.getDay());
+        to = addDays(to, 6 - to.getDay());
         for (let timestamp = from; compareAsc(timestamp, to) <= 0; timestamp = addDays(timestamp, 1)) {
             const dayToCheck = format(timestamp, 'MM-dd-yy');
             if (!(dayToCheck in todos)) {
@@ -95,6 +98,20 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
             }
         }
         return todosByDay;
+    },
+    getTodosByDay: (todoType, day) => {
+        let { finishedTodosStore, plannedTodosStore } = get();
+        let todos = plannedTodosStore;
+        if (todoType === "finished") {
+            todos = finishedTodosStore;
+        }
+
+        let parsedDate = parse(day, 'MM-dd-yy', new TZDate());
+
+        if (!isValid(parsedDate))
+            throw new Error("todosStore: getTodosByDay - day mush be in 'MM-dd-yy' format.")
+
+        return todos[day];
     },
     getJSONStore: () => JSON.stringify(get())
 }));

@@ -1,18 +1,18 @@
+import Navbar from "@/components/Navbar";
 import { Icon } from "@expo/vector-icons/build/createIconSet";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
 import { Href, Link, Slot, usePathname } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Navbar from "@/components/Navbar";
+import Paragraph from "@/components/typography/Paragraph";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { layoutStyles } from "@/styles/layout";
 
 type IconType = typeof Feather & typeof MaterialIcons;
-type extractIconType<Type> = Type extends Icon<infer X, infer Y> ? X : never;
+type extractIconTypes<Type> = Type extends Icon<infer X, infer Y> ? X : never;
 
 const tabRoutes = [
     {
@@ -39,7 +39,7 @@ function TabBarButton({
     text: string;
     route: string;
     currPath: string;
-    iconName: extractIconType<IconType>;
+    iconName: extractIconTypes<IconType>;
     Icon: IconType;
 }) {
     const theme = useThemeColors();
@@ -55,16 +55,15 @@ function TabBarButton({
                     ]}
                     size={24}
                 />
-                <Text
-                    style={[
-                        styles.tabItemText,
+                <Paragraph
+                    style={
                         currPath === route
                             ? { color: theme.primary }
-                            : { color: theme.text.disabled },
-                    ]}
+                            : { color: theme.text.disabled }
+                    }
                 >
                     {text}
-                </Text>
+                </Paragraph>
             </Pressable>
         </Link>
     );
@@ -97,7 +96,7 @@ export default function RootLayout() {
                         key={`${Math.random() * 100000000}`}
                         text={text}
                         route={route}
-                        iconName={iconName as extractIconType<IconType>}
+                        iconName={iconName as extractIconTypes<IconType>}
                         currPath={currPath}
                         Icon={Icon as IconType}
                     />
@@ -106,10 +105,3 @@ export default function RootLayout() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    tabItemText: {
-        fontSize: 12,
-        fontWeight: 500,
-    },
-});

@@ -1,53 +1,19 @@
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { layoutStyles } from "@/styles/layout";
-import React from "react";
-import { Text, TextStyle } from "react-native";
-
-type HeadingType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+import { typography } from "@/styles/typography";
+import React, { ReactNode } from "react";
+import { StyleProp, Text, TextStyle } from "react-native";
 
 const Heading = ({
+    children,
     style,
-    headingType,
-    ...props
 }: {
-    style: TextStyle;
-    headingType: HeadingType;
+    children: ReactNode;
+    style?: StyleProp<TextStyle>;
 }) => {
     const colors = useThemeColors();
-    let headingStyle = styles.h1;
-    switch (headingType) {
-        case "h1":
-            headingStyle = styles.h1;
-            break;
-        case "h2":
-            headingStyle = styles.h2;
-            break;
-        case "h3":
-            headingStyle = styles.h3;
-            break;
-        case "h4":
-            headingStyle = styles.h4;
-            break;
-        case "h5":
-            headingStyle = styles.h5;
-            break;
-        case "h6":
-            headingStyle = styles.h6;
-            break;
-    }
-
+    const textColor = { color: colors.text.primary };
     return (
-        <Text
-            style={[
-                style,
-                headingStyle,
-                layoutStyles.bold,
-                { color: colors.text.primary },
-            ]}
-            {...props}
-        >
-            Heading
-        </Text>
+        <Text style={[typography.semibold, textColor, style]}>{children}</Text>
     );
 };
 

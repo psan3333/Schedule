@@ -43,4 +43,4 @@ export const typography = StyleSheet.create({
     normal: {
         fontWeight: "normal",
     },
-})
+});

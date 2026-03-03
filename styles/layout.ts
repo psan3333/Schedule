@@ -51,6 +51,9 @@ export const layoutStyles = StyleSheet.create({
     flexWrap: {
         flexWrap: "wrap",
     },
+    gapXs: {
+        gap: 2,
+    },
     gapSm: {
         gap: 5,
     },
