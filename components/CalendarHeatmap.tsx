@@ -1,5 +1,4 @@
-import { subDays, subMonths } from "date-fns";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { timePeriods } from "@/constants/const";
@@ -10,6 +9,7 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import { useTodosStore } from "@/store/todosStore";
 
 import { typography } from "@/styles/typography";
+import { getPeriodLookup } from "@/utils/utils";
 import { TZDate } from "@date-fns/tz";
 import DropDown from "./pressable/DropDown";
 import TodoHeatbar from "./TodoHeatbar";
@@ -19,7 +19,7 @@ const CalendarHeatmap = () => {
     const [period, setPeriod] = useState<TimePeriod>(timePeriods[0]);
     const [gapBetweenBars, setGapBetweenBars] = useState(layoutStyles.gapSm);
 
-    const getTodos = useTodosStore((state) => state.getTodosByPeriod);
+    const getTodosByPeriod = useTodosStore((state) => state.getTodosByPeriod);
     const heatmapViewRef = useRef<View>(null);
     const currDate = useMemo(() => new TZDate(), []);
     const themeColors = useThemeColors();
@@ -58,21 +58,8 @@ const CalendarHeatmap = () => {
         });
     }, [heatbarWidth]);
 
-    const getPeriodLookup = useCallback(() => {
-        switch (period) {
-            case "week":
-                return subDays(currDate, 6);
-            case "month":
-                return subDays(currDate, 29);
-            case "3 months":
-                return subDays(subMonths(currDate, 2), 29);
-            case "year":
-                return subMonths(currDate, 11);
-        }
-    }, [period, currDate]);
-
-    const periodLookup = getPeriodLookup();
-    const todos = getTodos("finished", periodLookup, currDate);
+    const periodLookup = getPeriodLookup(currDate, period);
+    const todos = getTodosByPeriod("finished", periodLookup, currDate);
 
     return (
         <View style={containerStyles}>
@@ -88,7 +75,7 @@ const CalendarHeatmap = () => {
             >
                 <Heading style={typography.textMd}>Select Period</Heading>
                 <DropDown
-                    data={timePeriods}
+                    data={["week", "month"]}
                     selected={period}
                     setSelected={setPeriod}
                 />

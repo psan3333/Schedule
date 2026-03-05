@@ -6,7 +6,7 @@ import { typography } from "@/styles/typography";
 import { useAssets } from "expo-asset";
 import { Image } from "expo-image";
 import React, { useMemo } from "react";
-import { View } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import Button from "./pressable/Button";
 import TodoList from "./TodoList";
 import Heading from "./typography/Heading";
@@ -22,7 +22,7 @@ const TodoListContainer = () => {
     const shadowStyles = useBoxShadow();
 
     const todoListStyles = useMemo(
-        () => [
+        (): StyleProp<ViewStyle> => [
             layoutStyles.flexCol,
             layoutStyles.wFull,
             layoutStyles.alignCenter,
@@ -35,7 +35,7 @@ const TodoListContainer = () => {
     );
 
     const todoListToolbarStyles = useMemo(
-        () => [
+        (): StyleProp<ViewStyle> => [
             layoutStyles.wFull,
             layoutStyles.flexRow,
             layoutStyles.spaceBetween,
@@ -72,7 +72,7 @@ const TodoListContainer = () => {
                     ) : null}
                 </Button>
             </View>
-            <TodoList />
+            <TodoList period={"week"} />
         </View>
     );
 };

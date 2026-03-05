@@ -1,29 +1,51 @@
-import { Todo } from "@/constants/types";
 import { TZDate } from "@date-fns/tz";
 import { addDays, compareAsc, format, isValid, parse, subDays } from "date-fns";
 import { randomUUID } from "expo-crypto";
 import { create } from 'zustand';
+
+import { TimePeriod, Todo } from "@/constants/types";
+
+type TodoType = "planned" | "finished";
 
 type TodosStore = {
     // storage format: day -> Todo[] planned/completed on that day
     userDailyTarget: number;
     setDailyTarget: (target: number) => void;
 
+    cachedTodos: Record<TimePeriod, Record<TodoType, Record<string, Todo[]>[]>>
     plannedTodosStore: Record<string, Todo[]>;
     finishedTodosStore: Record<string, Todo[]>;
     addTodo: (todo: Todo) => void;
     deleteTodo: (todo: Todo) => void;
     setTodoToFinished: (todo: Todo) => void;
-    getTodosByDay: (todoType: "planned" | "finished", day: string) => Todo[];
-    getTodosByPeriod: (todoType: "finished" | "planned", from: Date, to: Date) => Record<string, Todo[]>[];
+    getTodosByDay: (todoType: TodoType, day: string) => Todo[];
+    getTodosByPeriod: (todoType: TodoType, from: Date, to: Date) => Record<string, Todo[]>[];
 
     getUserStats: () => [number, number];
-    getJSONStore: () => string;
+    getJSONFromStore: () => string;
 };
 
 const DAY_ID_FORMAT = 'yy-MM-dd';
 
 export const useTodosStore = create<TodosStore>((set, get) => ({
+    cachedTodos: {
+        'day': {
+            "planned": [],
+            "finished": [],
+        },
+        'week': {
+            "planned": [],
+            "finished": [],
+        },
+        'month': {
+            "planned": [],
+            "finished": [],
+        },
+        'year': {
+            "planned": [],
+            "finished": [],
+        },
+    },
     userDailyTarget: 4,
     plannedTodosStore: {},
     finishedTodosStore: {},
@@ -115,5 +137,5 @@ export const useTodosStore = create<TodosStore>((set, get) => ({
 
         return todos[day];
     },
-    getJSONStore: () => JSON.stringify(get())
+    getJSONFromStore: () => JSON.stringify(get()),
 }));

@@ -1,5 +1,6 @@
 import CalendarHeatmap from "@/components/CalendarHeatmap";
 import GraphicalStats from "@/components/GraphicalStats";
+import GridRow from "@/components/GridRow";
 import TodoListContainer from "@/components/TodoListContainer";
 import { layoutStyles } from "@/styles/layout";
 import { ScrollView, StyleSheet } from "react-native";
@@ -16,7 +17,9 @@ export default function Index() {
                 styles.spaceBetweenItems,
             ]}
         >
-            <TodoListContainer />
+            <GridRow style={{ maxHeight: "50%" }}>
+                <TodoListContainer />
+            </GridRow>
             <CalendarHeatmap />
             <GraphicalStats />
         </ScrollView>

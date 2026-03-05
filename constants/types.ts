@@ -1,5 +1,5 @@
 
-export type TimePeriod = "week" | "month" | "3 months" | "year";
+export type TimePeriod = "day" | "week" | "month" | "year";
 export type Todo = {
     id: string;
     timestamp: string; // formatted date with timezone included

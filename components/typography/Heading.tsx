@@ -1,18 +1,27 @@
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { typography } from "@/styles/typography";
-import React, { ReactNode } from "react";
-import { StyleProp, Text, TextStyle } from "react-native";
+import React, { ReactNode, useMemo } from "react";
+import { StyleProp, Text, TextProps, TextStyle } from "react-native";
 
 const Heading = ({
     children,
     style,
+    ...props
 }: {
     children: ReactNode;
     style?: StyleProp<TextStyle>;
+    props?: TextProps;
 }) => {
     const themeColors = useThemeColors();
-    const textColor = { color: themeColors.text.primary };
-    return <Text style={[typography.bold, textColor, style]}>{children}</Text>;
+    const textColor = useMemo(
+        (): TextStyle => ({ color: themeColors.text.primary }),
+        [themeColors.text.primary],
+    );
+    return (
+        <Text style={[typography.bold, textColor, style]} {...props}>
+            {children}
+        </Text>
+    );
 };
 
 export default Heading;
