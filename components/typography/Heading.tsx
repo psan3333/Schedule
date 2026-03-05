@@ -10,11 +10,9 @@ const Heading = ({
     children: ReactNode;
     style?: StyleProp<TextStyle>;
 }) => {
-    const colors = useThemeColors();
-    const textColor = { color: colors.text.primary };
-    return (
-        <Text style={[typography.semibold, textColor, style]}>{children}</Text>
-    );
+    const themeColors = useThemeColors();
+    const textColor = { color: themeColors.text.primary };
+    return <Text style={[typography.bold, textColor, style]}>{children}</Text>;
 };
 
 export default Heading;

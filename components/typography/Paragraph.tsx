@@ -10,8 +10,8 @@ const Paragraph = ({
     children: ReactNode;
     style?: StyleProp<TextStyle>;
 }) => {
-    const colors = useThemeColors();
-    const textColor = { color: colors.text.primary };
+    const themeColors = useThemeColors();
+    const textColor = { color: themeColors.text.primary };
     return (
         <Text style={[typography.medium, textColor, style]}>{children}</Text>
     );

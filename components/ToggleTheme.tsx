@@ -1,7 +1,7 @@
 import { useThemeStore } from "@/store/themeStore";
 import { layoutStyles } from "@/styles/layout";
 import { useAssets } from "expo-asset";
-import PressableImage from "./PressableImage";
+import PressableImage from "./pressable/PressableImage";
 
 const ToggleTheme = () => {
     const theme = useThemeStore((state) => state.theme);

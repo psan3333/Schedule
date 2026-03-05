@@ -1,4 +1,6 @@
 import CalendarHeatmap from "@/components/CalendarHeatmap";
+import GraphicalStats from "@/components/GraphicalStats";
+import TodoListContainer from "@/components/TodoListContainer";
 import { layoutStyles } from "@/styles/layout";
 import { ScrollView, StyleSheet } from "react-native";
 
@@ -14,8 +16,9 @@ export default function Index() {
                 styles.spaceBetweenItems,
             ]}
         >
+            <TodoListContainer />
             <CalendarHeatmap />
-            <CalendarHeatmap />
+            <GraphicalStats />
         </ScrollView>
     );
 }

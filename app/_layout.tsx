@@ -72,7 +72,7 @@ function TabBarButton({
 
 export default function RootLayout() {
     const currPath = usePathname();
-    const colors = useThemeColors();
+    const themeColors = useThemeColors();
     const theme = useThemeStore((state) => state.theme);
     useAppTheme();
     return (
@@ -81,13 +81,13 @@ export default function RootLayout() {
                 layoutStyles.flexCol,
                 layoutStyles.hFull,
                 layoutStyles.spaceBetween,
-                { backgroundColor: colors.surface[0] },
+                { backgroundColor: themeColors.surface[0] },
             ]}
         >
             <StatusBar
                 animated={true}
                 barStyle={`${theme === "dark" ? "light" : "dark"}-content`}
-                backgroundColor={colors.surface[0]}
+                backgroundColor={themeColors.surface[0]}
             />
             <Navbar />
             <Slot />

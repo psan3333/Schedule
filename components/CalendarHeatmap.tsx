@@ -11,17 +11,18 @@ import { useTodosStore } from "@/store/todosStore";
 
 import { typography } from "@/styles/typography";
 import { TZDate } from "@date-fns/tz";
-import DropDown from "./DropDown";
+import DropDown from "./pressable/DropDown";
 import TodoHeatbar from "./TodoHeatbar";
 import Heading from "./typography/Heading";
 
 const CalendarHeatmap = () => {
     const [period, setPeriod] = useState<TimePeriod>(timePeriods[0]);
-    const getTodos = useTodosStore((state) => state.getTodosByPeriod);
-    const colors = useThemeColors();
-    const containerRef = useRef<View>(null);
-    const currDate = useMemo(() => new TZDate(), []);
     const [gapBetweenBars, setGapBetweenBars] = useState(layoutStyles.gapSm);
+
+    const getTodos = useTodosStore((state) => state.getTodosByPeriod);
+    const heatmapViewRef = useRef<View>(null);
+    const currDate = useMemo(() => new TZDate(), []);
+    const themeColors = useThemeColors();
 
     const containerStyles = useMemo(
         () => [
@@ -33,13 +34,13 @@ const CalendarHeatmap = () => {
             layoutStyles.pdMd,
             layoutStyles.gapMd,
             {
-                backgroundColor: colors.surface[1],
+                backgroundColor: themeColors.surface[1],
                 outlineWidth: 2,
-                outlineColor: colors.outline,
+                outlineColor: themeColors.outline,
                 outlineOffset: 1,
             },
         ],
-        [colors.outline, colors.surface],
+        [themeColors.outline, themeColors.surface],
     );
 
     const heatbarWidth = useMemo(() => {
@@ -51,7 +52,7 @@ const CalendarHeatmap = () => {
     useEffect(() => {
         setGapBetweenBars({
             gap: Math.floor(
-                (containerRef.current!.clientWidth - heatbarWidth.width * 7) /
+                (heatmapViewRef.current!.clientWidth - heatbarWidth.width * 7) /
                     6,
             ),
         });
@@ -76,7 +77,7 @@ const CalendarHeatmap = () => {
     return (
         <View style={containerStyles}>
             <View
-                ref={containerRef}
+                ref={heatmapViewRef}
                 style={[
                     layoutStyles.wFull,
                     layoutStyles.flexRow,

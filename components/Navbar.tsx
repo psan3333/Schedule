@@ -6,13 +6,13 @@ import { useAssets } from "expo-asset";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import PressableImage from "./PressableImage";
+import PressableImage from "./pressable/PressableImage";
 import ToggleTheme from "./ToggleTheme";
 
 const Navbar = () => {
     const router = useRouter();
     const theme = useThemeStore((state) => state.theme);
-    const colors = useThemeColors();
+    const themeColors = useThemeColors();
     const [assets, error] = useAssets([
         require("@/assets/icons/light-theme.png"),
         require("@/assets/icons/dark-theme.png"),
@@ -27,7 +27,7 @@ const Navbar = () => {
                 layoutStyles.alignCenter,
                 shadowStyles.cardShadow,
                 navStyles.container,
-                { backgroundColor: colors.surface[1] },
+                { backgroundColor: themeColors.surface[1] },
             ]}
         >
             <ToggleTheme />

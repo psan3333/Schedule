@@ -81,6 +81,21 @@ export const layoutStyles = StyleSheet.create({
     pdXl: {
         padding: 20,
     },
+    mrXs: {
+        padding: 4,
+    },
+    mrSm: {
+        padding: 6
+    },
+    mrMd: {
+        padding: 10
+    },
+    mrLg: {
+        padding: 15,
+    },
+    mrXl: {
+        padding: 20,
+    },
     borderXs: {
         borderRadius: 4,
     },

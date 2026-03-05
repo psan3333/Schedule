@@ -41,7 +41,7 @@ export const Colors = {
             disabled: "rgb(224, 224, 224)",
         },
         button: {
-            default: "hsl(156, 0%, 25%)",
+            default: "hsl(156, 0%, 30%)",
             pressed: "hsl(156, 0%, 35%)",
             disabled: "hsla(156, 0%, 35%, 0.7)",
         },

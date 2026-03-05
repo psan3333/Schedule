@@ -19,7 +19,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { typography } from "@/styles/typography";
-import Paragraph from "./typography/Paragraph";
+import Paragraph from "../typography/Paragraph";
 interface DropDownProps {
     data: string[];
     selected: string;
@@ -89,7 +89,7 @@ const DropDownList = ({
 
 const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const colors = useThemeColors();
+    const themeColors = useThemeColors();
     const arrowStyles = useAnimatedStyle(() => ({
         transform: [
             {
@@ -117,7 +117,7 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                     layoutStyles.elementBelow,
                     styles.scrollStyles,
                     styles.dropdownListBorder,
-                    { borderColor: colors.border },
+                    { borderColor: themeColors.border },
                 ]}
                 dropdownItemStyle={[
                     layoutStyles.flexRow,
@@ -125,11 +125,11 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                     layoutStyles.spaceBetween,
                     layoutStyles.pdSm,
                     styles.item,
-                    { borderColor: colors.border },
+                    { borderColor: themeColors.border },
                 ]}
             />
         ),
-        [colors.border, data, selected, setSelected],
+        [themeColors.border, data, selected, setSelected],
     );
 
     return (
@@ -144,7 +144,7 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                         layoutStyles.pdSm,
                         styles.item,
                         styles.selectBox,
-                        { borderColor: colors.border },
+                        { borderColor: themeColors.border },
                     ]}
                 >
                     <Paragraph style={typography.textSm}>{selected}</Paragraph>
@@ -152,7 +152,7 @@ const DropDown = ({ data, selected, setSelected }: DropDownProps) => {
                         <Feather
                             name="arrow-right"
                             size={24}
-                            color={colors.text.primary}
+                            color={themeColors.text.primary}
                         />
                     </Animated.View>
                 </DropDownItem>

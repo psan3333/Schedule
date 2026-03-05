@@ -16,7 +16,7 @@ interface HeatBarProps {
 
 const TodoHeatbar = ({ style, todos, dateInDayFormat }: HeatBarProps) => {
     const userDailyTarget = useTodosStore((state) => state.userDailyTarget);
-    const colors = useThemeColors();
+    const themeColors = useThemeColors();
     const router = useRouter();
 
     const barStyles = () => {
@@ -24,7 +24,7 @@ const TodoHeatbar = ({ style, todos, dateInDayFormat }: HeatBarProps) => {
         const maxOpacity = 1.0;
         const userTargetProgress = todos.length / userDailyTarget;
         return {
-            backgroundColor: colors.primary,
+            backgroundColor: themeColors.primary,
             opacity: Math.min(
                 Math.max(minOpacity, userTargetProgress),
                 maxOpacity,
@@ -54,11 +54,12 @@ const TodoHeatbar = ({ style, todos, dateInDayFormat }: HeatBarProps) => {
                 ]}
             ></View>
             <Paragraph
-                style={
-                    new TZDate().getMonth() === todosDayDate.getMonth() && {
-                        color: "black",
-                    }
-                }
+                style={{
+                    color:
+                        new TZDate().getMonth() === todosDayDate.getMonth()
+                            ? themeColors.text.primary
+                            : themeColors.text.secondary,
+                }}
             >
                 {todosDayDate.getDate()}
             </Paragraph>
