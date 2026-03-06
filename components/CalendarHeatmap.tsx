@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { timePeriods } from "@/constants/const";
 import { TimePeriod } from "@/constants/types";
 import { layoutStyles } from "@/styles/layout";
 
@@ -16,7 +15,7 @@ import TodoHeatbar from "./TodoHeatbar";
 import Heading from "./typography/Heading";
 
 const CalendarHeatmap = () => {
-    const [period, setPeriod] = useState<TimePeriod>(timePeriods[0]);
+    const [period, setPeriod] = useState<TimePeriod>("week");
     const [gapBetweenBars, setGapBetweenBars] = useState(layoutStyles.gapSm);
 
     const getTodosByPeriod = useTodosStore((state) => state.getTodosByPeriod);

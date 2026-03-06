@@ -12,6 +12,7 @@ type TodosStore = {
     userDailyTarget: number;
     setDailyTarget: (target: number) => void;
 
+    // TODO: Add cached variants for each query
     cachedTodos: Record<TimePeriod, Record<TodoType, Record<string, Todo[]>[]>>
     plannedTodosStore: Record<string, Todo[]>;
     finishedTodosStore: Record<string, Todo[]>;
