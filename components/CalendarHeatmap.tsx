@@ -8,8 +8,6 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import { useTodosStore } from "@/store/todosStore";
 
 import { typography } from "@/styles/typography";
-import { getPeriodLookup } from "@/utils/utils";
-import { TZDate } from "@date-fns/tz";
 import DropDown from "./pressable/DropDown";
 import TodoHeatbar from "./TodoHeatbar";
 import Heading from "./typography/Heading";
@@ -20,7 +18,6 @@ const CalendarHeatmap = () => {
 
     const getTodosByPeriod = useTodosStore((state) => state.getTodosByPeriod);
     const heatmapViewRef = useRef<View>(null);
-    const currDate = useMemo(() => new TZDate(), []);
     const themeColors = useThemeColors();
 
     const containerStyles = useMemo(
@@ -57,8 +54,7 @@ const CalendarHeatmap = () => {
         });
     }, [heatbarWidth]);
 
-    const periodLookup = getPeriodLookup(currDate, period);
-    const todos = getTodosByPeriod("finished", periodLookup, currDate);
+    const todos = getTodosByPeriod("finished", period);
 
     return (
         <View style={containerStyles}>

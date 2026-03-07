@@ -1,4 +1,5 @@
 
+export type TodoType = "planned" | "finished";
 export type TimePeriod = "day" | "week" | "month" | "year";
 export type Todo = {
     id: string;
@@ -7,3 +8,5 @@ export type Todo = {
     description: string;
     metricOfExecution?: string;
 }
+
+export type TodoStoreCache = Record<Exclude<TimePeriod, "day" | "year">, Record<TodoType, Record<string, Todo[]>[]>>;

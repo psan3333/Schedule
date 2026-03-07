@@ -4,6 +4,8 @@ import { subDays, subMonths } from "date-fns";
 
 export const getPeriodLookup = (currDate: TZDate, period: TimePeriod) => {
     switch (period) {
+        case "day":
+            return currDate;
         case "week":
             return subDays(currDate, 6);
         case "month":
