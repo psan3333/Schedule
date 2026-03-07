@@ -88,7 +88,7 @@ export const useTodosStore = create<TodosStore>((set, get, store) => {
                         [todoTimestamp]: [...state.plannedTodosStore[todoTimestamp], {
                             ...todo,
                             id: randomUUID(),
-                            timestamp: new TZDate().toString(),
+                            changedAt: new TZDate().toString(),
                         }],
                     },
                 };
@@ -97,7 +97,7 @@ export const useTodosStore = create<TodosStore>((set, get, store) => {
         },
         deleteTodo: (todo) => {
             set((state) => {
-                const todoTimestamp = format(new TZDate(todo.timestamp), DAY_ID_FORMAT);
+                const todoTimestamp = format(new TZDate(todo.changedAt), DAY_ID_FORMAT);
                 return {
                     plannedTodosStore: {
                         ...state.plannedTodosStore,
@@ -107,14 +107,14 @@ export const useTodosStore = create<TodosStore>((set, get, store) => {
             });
         },
         setTodoToFinished: (todo) => set((state) => {
-            const todoTimestamp = format(new TZDate(todo.timestamp), DAY_ID_FORMAT);
+            const todoTimestamp = format(new TZDate(todo.changedAt), DAY_ID_FORMAT);
             state.deleteTodo(todo);
             return {
                 finishedTodosStore: {
                     ...state.finishedTodosStore,
                     [todoTimestamp]: [...state.finishedTodosStore[todoTimestamp], {
                         ...todo,
-                        timestamp: new TZDate().toString(),
+                        changedAt: new TZDate().toString(),
                     }],
                 }
             };

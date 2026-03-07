@@ -3,9 +3,9 @@ export type TodoType = "planned" | "finished";
 export type TimePeriod = "day" | "week" | "month" | "year";
 export type Todo = {
     id: string;
-    timestamp: string; // formatted date with timezone included
+    changedAt: string; // formatted date with timezone included
     title: string;
-    description: string;
+    description?: string;
     metricOfExecution?: string;
 }
 

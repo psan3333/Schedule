@@ -54,7 +54,7 @@ const TodoList: React.FC<TodoListProps> = ({ period = "day" }) => {
                         {todo.title}
                     </Paragraph>
                     <Paragraph style={typography.textSm}>
-                        {todo.timestamp}
+                        {todo.changedAt}
                     </Paragraph>
                 </View>
             )),
