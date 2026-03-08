@@ -1,6 +1,6 @@
 import { TimePeriod, Todo } from "@/constants/types";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { useTodosStore } from "@/store/todosStore";
+import { useAppCache } from "@/store/cache";
 import { layoutStyles } from "@/styles/layout";
 import { typography } from "@/styles/typography";
 import { randomUUID } from "expo-crypto";
@@ -14,7 +14,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ period = "day" }) => {
     const themeColors = useThemeColors();
-    const getTodosByPeriod = useTodosStore((state) => state.getTodosByPeriod);
+    const getTodosByPeriod = useAppCache((state) => state.getTodosByPeriod);
     const todoListStyles = useMemo(
         () => [
             layoutStyles.pdMd,

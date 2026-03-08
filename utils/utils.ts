@@ -17,3 +17,4 @@ export const getPeriodLookup = (currDate: TZDate, period: TimePeriod) => {
             return subDays(currDate, 6);
     }
 }
+

@@ -1,20 +1,19 @@
 import Navbar from "@/components/Navbar";
+import Paragraph from "@/components/typography/Paragraph";
 import { Icon } from "@expo/vector-icons/build/createIconSet";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Href, Link, Slot, usePathname } from "expo-router";
+import { Href, Link, usePathname } from "expo-router";
 import { Suspense } from "react";
-import { Pressable, StatusBar, View } from "react-native";
+import { ActivityIndicator, Pressable, StatusBar, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Paragraph from "@/components/typography/Paragraph";
-import { useAppTheme } from "@/hooks/useAppTheme";
+import { useAppSetup } from "@/hooks/useAppSetup";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useThemeStore } from "@/store/themeStore";
 import { layoutStyles } from "@/styles/layout";
-
-import { drizzle } from "drizzle-orm/expo-sqlite";
-import { openDatabaseSync } from "expo-sqlite";
+import { typography } from "@/styles/typography";
+import { SQLiteProvider } from "expo-sqlite";
 
 type IconType = typeof Feather & typeof MaterialIcons;
 type extractIconTypes<Type> = Type extends Icon<infer X, infer Y> ? X : never;
@@ -33,8 +32,6 @@ const tabRoutes = [
         Icon: Feather,
     },
 ];
-
-const DB_NAME = "todo";
 
 function TabBarButton({
     text,
@@ -81,46 +78,65 @@ export default function RootLayout() {
     const currPath = usePathname();
     const themeColors = useThemeColors();
     const theme = useThemeStore((state) => state.theme);
-    useAppTheme();
-    // local db
-    const expo = openDatabaseSync(process.env.DB_URL!);
-    const db = drizzle(expo);
+
+    useAppSetup();
+
     return (
-        <Suspense>
-            <SafeAreaView
-                style={[
-                    layoutStyles.flexCol,
-                    layoutStyles.hFull,
-                    layoutStyles.spaceBetween,
-                    { backgroundColor: themeColors.surface[0] },
-                ]}
-            >
-                <StatusBar
-                    animated={true}
-                    barStyle={`${theme === "dark" ? "light" : "dark"}-content`}
-                    backgroundColor={themeColors.surface[0]}
-                />
-                <Navbar />
-                <Slot />
+        <Suspense
+            fallback={
                 <View
                     style={[
-                        layoutStyles.flexRow,
-                        layoutStyles.spaceAround,
-                        layoutStyles.alignCenter,
+                        layoutStyles.flexCol,
+                        layoutStyles.centered,
+                        layoutStyles.gapMd,
                     ]}
                 >
-                    {tabRoutes.map(({ route, text, iconName, Icon }) => (
-                        <TabBarButton
-                            key={`${Math.random() * 100000000}`}
-                            text={text}
-                            route={route}
-                            iconName={iconName as extractIconTypes<IconType>}
-                            currPath={currPath}
-                            Icon={Icon as IconType}
-                        />
-                    ))}
+                    <ActivityIndicator
+                        size="large"
+                        color={themeColors.primary}
+                    />
+                    <Paragraph style={typography.textMd}>Loading</Paragraph>
                 </View>
-            </SafeAreaView>
+            }
+        >
+            <SQLiteProvider databaseName={process.env.DB_NAME!} useSuspense>
+                <SafeAreaView
+                    style={[
+                        layoutStyles.flexCol,
+                        layoutStyles.hFull,
+                        layoutStyles.spaceBetween,
+                        { backgroundColor: themeColors.surface[0] },
+                    ]}
+                >
+                    <StatusBar
+                        animated={true}
+                        barStyle={`${theme === "dark" ? "light" : "dark"}-content`}
+                        backgroundColor={themeColors.surface[0]}
+                    />
+                    <Navbar />
+
+                    <View
+                        style={[
+                            layoutStyles.flexRow,
+                            layoutStyles.spaceAround,
+                            layoutStyles.alignCenter,
+                        ]}
+                    >
+                        {tabRoutes.map(({ route, text, iconName, Icon }) => (
+                            <TabBarButton
+                                key={`${Math.random() * 100000000}`}
+                                text={text}
+                                route={route}
+                                iconName={
+                                    iconName as extractIconTypes<IconType>
+                                }
+                                currPath={currPath}
+                                Icon={Icon as IconType}
+                            />
+                        ))}
+                    </View>
+                </SafeAreaView>
+            </SQLiteProvider>
         </Suspense>
     );
 }

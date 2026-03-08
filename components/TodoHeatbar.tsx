@@ -1,6 +1,6 @@
 import { Todo } from "@/constants/types";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { useTodosStore } from "@/store/todosStore";
+import { useAppCache } from "@/store/cache";
 import { layoutStyles } from "@/styles/layout";
 import { TZDate } from "@date-fns/tz";
 import { useRouter } from "expo-router";
@@ -15,7 +15,7 @@ interface HeatBarProps {
 }
 
 const TodoHeatbar = ({ style, todos, dateInDayFormat }: HeatBarProps) => {
-    const userDailyTarget = useTodosStore((state) => state.userDailyTarget);
+    const userDailyTarget = useAppCache((state) => state.userDailyTarget);
     const themeColors = useThemeColors();
     const router = useRouter();
 

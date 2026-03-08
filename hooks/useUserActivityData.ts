@@ -1,7 +1,7 @@
-import { useTodosStore } from "@/store/todosStore";
+import { useAppCache } from "@/store/cache";
 
 export const useUserActivityData = () => {
-    const getTodoStats = useTodosStore((state) => state.getUserStats);
-    const userDailyTarget = useTodosStore((state) => state.userDailyTarget);
+    const getTodoStats = useAppCache((state) => state.getUserStats);
+    const userDailyTarget = useAppCache((state) => state.userDailyTarget);
     const [plannedTodos, completedTodos] = getTodoStats();
 };

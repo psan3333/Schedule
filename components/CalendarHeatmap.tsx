@@ -5,7 +5,7 @@ import { TimePeriod } from "@/constants/types";
 import { layoutStyles } from "@/styles/layout";
 
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { useTodosStore } from "@/store/todosStore";
+import { useAppCache } from "@/store/cache";
 
 import { typography } from "@/styles/typography";
 import DropDown from "./pressable/DropDown";
@@ -16,7 +16,7 @@ const CalendarHeatmap = () => {
     const [period, setPeriod] = useState<TimePeriod>("week");
     const [gapBetweenBars, setGapBetweenBars] = useState(layoutStyles.gapSm);
 
-    const getTodosByPeriod = useTodosStore((state) => state.getTodosByPeriod);
+    const getTodosByPeriod = useAppCache((state) => state.getTodosByPeriod);
     const heatmapViewRef = useRef<View>(null);
     const themeColors = useThemeColors();
 
